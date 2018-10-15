@@ -44,7 +44,7 @@ public class StringUtilTest {
 		String url2 = StringUtil.pathAsUrlString(path2);
 		assertEquals("/folder/sub123 fol_der_/", url2);
 
-		assertEquals("/", StringUtil.pathAsUrlString(File.separator));
+		assertEquals("/-", StringUtil.pathAsUrlString(File.separator));
 	}
 
 }
