@@ -31,6 +31,7 @@ import org.wahlzeit.services.DataObject;
 import org.wahlzeit.services.EmailAddress;
 import org.wahlzeit.services.Language;
 import org.wahlzeit.services.ObjectManager;
+import org.wahlzeit.model.Location;
 
 import java.util.Map;
 
@@ -66,6 +67,8 @@ public class Photo extends DataObject {
 	public static final int MAX_PHOTO_HEIGHT = 600;
 	public static final int MAX_THUMB_PHOTO_WIDTH = 105;
 	public static final int MAX_THUMB_PHOTO_HEIGHT = 150;
+	
+	public Location location = null;
 
 	protected PhotoId id = null;
 	
