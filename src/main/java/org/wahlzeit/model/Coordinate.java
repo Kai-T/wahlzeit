@@ -85,4 +85,15 @@ public class Coordinate {
 			   && (this.y == coordinate.y) 
 			   && (this.z == coordinate.z);
 	}	
+	
+	
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj.getClass().equals(Coordinate.class))){
+			return false;
+		}
+		return this.isEqual((Coordinate)obj);
+	}
 }
