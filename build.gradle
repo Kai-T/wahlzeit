@@ -59,11 +59,12 @@ dependencies {
 }
 
 test {
-    filter {
-        includeTestsMatching "org.wahlzeit.*"
-    }
+    include 'AllTests.class'
     testLogging {
             events "passed", "skipped", "failed"
+
+            outputs.upToDateWhen {false}
+            showStandardStreams = true
 
             afterSuite { desc, result ->
                 if (!desc.parent) {
