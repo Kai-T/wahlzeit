@@ -31,9 +31,7 @@ public class LocationTest {
 	public void testCreation() {
 		Coordinate coordinate = new Coordinate(0,0,0);
 		Location location = new Location(coordinate);
-		/*
-		 * This will fail if the creation is doesn't work as it should.
-		 */
+		/* This will fail if the creation doesn't work as it should. */
 	}
 
 }
