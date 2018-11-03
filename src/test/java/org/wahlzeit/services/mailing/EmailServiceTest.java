@@ -27,6 +27,10 @@ import org.wahlzeit.services.EmailAddress;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
+import java.util.logging.Level;
+
 public class EmailServiceTest {
 
 	EmailService emailService = null;
@@ -56,5 +60,46 @@ public class EmailServiceTest {
 		} catch (Exception ex) {
 			Assert.fail("Silent mode does not allow exceptions");
 		}
+	}
+	
+	@Test
+	public void testCorrectContent() {
+		Logger logger = Logger.getLogger(LoggingEmailService.class.getName());
+		
+		MyHandler handler = new MyHandler();
+	    handler.setLevel(Level.ALL);
+	    logger.setLevel(Level.ALL);
+	    logger.addHandler(handler);
+
+	    //create new EmailService to make sure it uses the logging decorator
+	    EmailService loggingEmailService = new LoggingEmailService(new MockEmailService());
+	    loggingEmailService.sendEmailIgnoreException(validAddress, validAddress, "hi", "test");
+
+		String expected = "action=Send E-Mail, from=test@test.de, to=test@test.de, subject=hi";
+		assertTrue(handler.getMessage().contains(expected));
+		logger.removeHandler(handler);
+	}
+	/**
+	 *  A Handler to get logged Messages. 
+	 */
+	private class MyHandler extends java.util.logging.Handler{
+
+		private String message = "";
+		@Override
+		public void close() throws SecurityException {}
+
+		@Override
+		public void flush() {
+			message = "";
+		}
+
+		@Override
+		public void publish(LogRecord arg0) {
+			message += (arg0.getMessage());
+		}
+		
+		public String getMessage() {
+			return message;
+		}			
 	}
 }
