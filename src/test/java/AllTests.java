@@ -35,7 +35,7 @@ import org.wahlzeit.utils.UtilsTestSuite;
 	EmailServiceTestSuite.class,
 	ModelTestSuite.class,
 	HandlersTestSuite.class,
-	ModelPersistenceTestSuite.class,
+	//ModelPersistenceTestSuite.class,
 	ServicesTestSuite.class,
 	EnvironmentProviderTestSuite.class,
 	UtilsTestSuite.class	

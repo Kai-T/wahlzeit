@@ -22,10 +22,9 @@ package org.wahlzeit.services.mailing;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import org.wahlzeit.services.mailing.EmailService;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-   EmailService.class
+   EmailServiceTest.class
 })
 public class EmailServiceTestSuite {}

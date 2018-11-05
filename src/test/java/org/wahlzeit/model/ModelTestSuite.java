@@ -22,6 +22,7 @@ package org.wahlzeit.model;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+import org.wahlzeit.model.persistence.ModelPersistenceTestSuite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
@@ -34,6 +35,7 @@ import org.junit.runners.Suite;
 	PhotoFilterTest.class,
 	TagsTest.class,
 	UserStatusTest.class,
-	ValueTest.class
+	ValueTest.class,
+	ModelPersistenceTestSuite.class
 })
 public class ModelTestSuite {}

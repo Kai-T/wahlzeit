@@ -26,7 +26,6 @@ import org.wahlzeit.utils.VersionTest;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-	AbstractAdapterTest.class,
 	DatastoreAdapterTest.class
 })
 public class ModelPersistenceTestSuite {}
