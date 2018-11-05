@@ -26,7 +26,6 @@ import org.wahlzeit.handlers.HandlersTestSuite;
 import org.wahlzeit.model.ModelTestSuite;
 import org.wahlzeit.services.ServicesTestSuite;
 import org.wahlzeit.services.mailing.EmailServiceTestSuite;
-import org.wahlzeit.testEnvironmentProvider.EnvironmentProviderTestSuite;
 import org.wahlzeit.utils.UtilsTestSuite;
 
 @RunWith(Suite.class)
@@ -35,7 +34,6 @@ import org.wahlzeit.utils.UtilsTestSuite;
 	ModelTestSuite.class,
 	HandlersTestSuite.class,
 	ServicesTestSuite.class,
-	EnvironmentProviderTestSuite.class,
 	UtilsTestSuite.class	
 })
 public class AllTests {}
