@@ -24,7 +24,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.wahlzeit.handlers.HandlersTestSuite;
 import org.wahlzeit.model.ModelTestSuite;
-import org.wahlzeit.model.persistence.ModelPersistenceTestSuite;
 import org.wahlzeit.services.ServicesTestSuite;
 import org.wahlzeit.services.mailing.EmailServiceTestSuite;
 import org.wahlzeit.testEnvironmentProvider.EnvironmentProviderTestSuite;
@@ -35,7 +34,6 @@ import org.wahlzeit.utils.UtilsTestSuite;
 	EmailServiceTestSuite.class,
 	ModelTestSuite.class,
 	HandlersTestSuite.class,
-	//ModelPersistenceTestSuite.class,
 	ServicesTestSuite.class,
 	EnvironmentProviderTestSuite.class,
 	UtilsTestSuite.class	
