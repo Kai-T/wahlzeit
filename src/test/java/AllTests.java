@@ -18,7 +18,7 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package org.wahlzeit.allTests;
+
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
