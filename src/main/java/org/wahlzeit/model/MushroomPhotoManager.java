@@ -21,31 +21,8 @@
 package org.wahlzeit.model;
 
 public class MushroomPhotoManager extends PhotoManager {
-
-	protected static final PhotoManager instance = new MushroomPhotoManager();
 	
 	public MushroomPhotoManager() {
 		super();
-	};
-
-	/**
-	 *
-	 */
-	public Photo getPhotoFromId(PhotoId id) {
-		if (id == null) {
-			return null;
-		}
-
-		Photo result = doGetPhotoFromId(id);
-
-		if (result == null) {
-			result = MushroomPhotoFactory.getInstance().loadPhoto(id);
-			if (result != null) {
-				doAddPhoto(result);
-			}
-		}
-
-		return result;
-	}
-	
+	};	
 }
