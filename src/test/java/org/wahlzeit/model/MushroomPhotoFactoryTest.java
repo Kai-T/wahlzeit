@@ -20,25 +20,25 @@
 
 package org.wahlzeit.model;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.wahlzeit.model.persistence.ModelPersistenceTestSuite;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
-	AccessRightsTest.class,
-	CoordinateTest.class,
-	FlagReasonTest.class,
-	GenderTest.class,
-	GuestTest.class,
-	LocationTest.class,
-	PhotoFilterTest.class,
-	TagsTest.class,
-	UserStatusTest.class,
-	ValueTest.class,
-	ModelPersistenceTestSuite.class,
-	MushroomPhotoFactoryTest.class,
-	MushroomPhotoMangerTest.class,
-	MushroomPhotoTest.class
-})
-public class ModelTestSuite {}
+public class MushroomPhotoFactoryTest {
+
+	@Test
+	public void testInitialize() {
+		MushroomPhotoFactory.initialize();
+		assertNotNull(MushroomPhotoFactory.getInstance());
+		assertTrue(MushroomPhotoFactory.getInstance() instanceof MushroomPhotoFactory);
+		assertTrue(MushroomPhotoFactory.getInstance() instanceof PhotoFactory);
+	}
+	
+	@Test
+	public void testCreatePhoto() {
+		MushroomPhotoFactory.initialize();
+		PhotoFactory factory = MushroomPhotoFactory.getInstance();
+		assertTrue(factory.createPhoto() instanceof MushroomPhoto);
+		assertTrue(factory.createPhoto(PhotoId.getRandomId()) instanceof MushroomPhoto);
+	}
+
+}

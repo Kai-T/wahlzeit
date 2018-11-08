@@ -20,25 +20,32 @@
 
 package org.wahlzeit.model;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.wahlzeit.model.persistence.ModelPersistenceTestSuite;
+public class MushroomPhotoManager extends PhotoManager {
 
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
-	AccessRightsTest.class,
-	CoordinateTest.class,
-	FlagReasonTest.class,
-	GenderTest.class,
-	GuestTest.class,
-	LocationTest.class,
-	PhotoFilterTest.class,
-	TagsTest.class,
-	UserStatusTest.class,
-	ValueTest.class,
-	ModelPersistenceTestSuite.class,
-	MushroomPhotoFactoryTest.class,
-	MushroomPhotoMangerTest.class,
-	MushroomPhotoTest.class
-})
-public class ModelTestSuite {}
+	protected static final PhotoManager instance = new MushroomPhotoManager();
+	
+	public MushroomPhotoManager() {
+		super();
+	};
+
+	/**
+	 *
+	 */
+	public Photo getPhotoFromId(PhotoId id) {
+		if (id == null) {
+			return null;
+		}
+
+		Photo result = doGetPhotoFromId(id);
+
+		if (result == null) {
+			result = MushroomPhotoFactory.getInstance().loadPhoto(id);
+			if (result != null) {
+				doAddPhoto(result);
+			}
+		}
+
+		return result;
+	}
+	
+}

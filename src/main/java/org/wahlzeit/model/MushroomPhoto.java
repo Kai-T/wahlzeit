@@ -20,25 +20,24 @@
 
 package org.wahlzeit.model;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.wahlzeit.model.persistence.ModelPersistenceTestSuite;
+import com.googlecode.objectify.annotation.Subclass;
 
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
-	AccessRightsTest.class,
-	CoordinateTest.class,
-	FlagReasonTest.class,
-	GenderTest.class,
-	GuestTest.class,
-	LocationTest.class,
-	PhotoFilterTest.class,
-	TagsTest.class,
-	UserStatusTest.class,
-	ValueTest.class,
-	ModelPersistenceTestSuite.class,
-	MushroomPhotoFactoryTest.class,
-	MushroomPhotoMangerTest.class,
-	MushroomPhotoTest.class
-})
-public class ModelTestSuite {}
+@Subclass
+public class MushroomPhoto extends Photo {
+
+	/**
+	 * 
+	 */
+	public MushroomPhoto() {
+		super();
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public MushroomPhoto(PhotoId id) {
+		super(id);
+	}
+
+}
