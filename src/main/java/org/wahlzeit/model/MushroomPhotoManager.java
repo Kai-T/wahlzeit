@@ -23,6 +23,6 @@ package org.wahlzeit.model;
 public class MushroomPhotoManager extends PhotoManager {
 	
 	public MushroomPhotoManager() {
-		super();
-	};	
+		photoTagCollector = MushroomPhotoFactory.getInstance().createPhotoTagCollector();
+	}
 }
