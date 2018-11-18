@@ -83,17 +83,4 @@ public class CoordinateTest {
 			assertEquals(0, coordinates_cartesian[i].getCentralAngle(coordinates_spheric[i]), double_threshold);
 		}
 	}
-	/*
-	 * 		System.out.println(coordinates_spheric[i].asCartesianCoordinate().getX());
-			System.out.println(coordinates_spheric[i].asCartesianCoordinate().getY());
-			System.out.println(coordinates_spheric[i].asCartesianCoordinate().getZ());
-			System.out.println(coordinates_cartesian[i].getCartesianDistance(coordinates_spheric[i]));
-			System.out.println();
-	 */
-	private void print(SphericCoordinate c) {
-		System.out.println(c.getPhi());
-		System.out.println(c.getTheta());
-		System.out.println(c.getRadius());
-	}
-
 }
