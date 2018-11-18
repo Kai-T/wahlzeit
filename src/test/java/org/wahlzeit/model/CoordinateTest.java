@@ -17,81 +17,83 @@
  * License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-
 package org.wahlzeit.model;
 
 import static org.junit.Assert.*;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * Test cases for the Coordinate class.
- */
 public class CoordinateTest {
-	private Coordinate coordinate1 = null;
+	private static final double double_threshold = 1e-10;
+
+	
+	private Coordinate[] coordinates_cartesian = new Coordinate [4];
+	private Coordinate[] coordinates_spheric = new Coordinate [4];
 
 	@Before
 	public void setUp() {
-		coordinate1 = new Coordinate(0, 0, 0);
+		coordinates_cartesian[0] = new CartesianCoordinate(0, 0, 0);
+		coordinates_cartesian[1] = new CartesianCoordinate(1, 0, 0);
+		coordinates_cartesian[2] = new CartesianCoordinate(0, -2, 0);
+		coordinates_cartesian[3] = new CartesianCoordinate(0, 3, 4);
+		
+		coordinates_spheric[0] = new SphericCoordinate(0, 0, 0);
+		coordinates_spheric[1] = new SphericCoordinate(0, Math.PI/2, 1);
+		coordinates_spheric[2] = new SphericCoordinate(-Math.PI/2, Math.PI/2, 2);
+		coordinates_spheric[3] = new SphericCoordinate(Math.PI/2, Math.asin(3. / 5.), 5);		
 	}
-	
-	@Test (expected=IllegalArgumentException.class)
-	public void testNaNInInitialization() {
-		new Coordinate(0, 0, Double.NaN);
-	}
-	
-	@Test (expected=IllegalArgumentException.class)
-	public void testPositiveInfinityInInitialization() {
-		new Coordinate(0, 0, Double.POSITIVE_INFINITY);
-	}
-	
-	@Test (expected=IllegalArgumentException.class)
-	public void testNegativeInfinityInInitialization() {
-		new Coordinate(0, 0, Double.NEGATIVE_INFINITY);
+
+	@After
+	public void tearDown() throws Exception {
 	}
 
 	@Test
-	public void testIsEqualSameCoordinate() {
-		assertTrue(coordinate1.isEqual(coordinate1));
+	public void testIsEqual() {
+		for (int i=0; i < coordinates_cartesian.length; i++) {
+			assertTrue(coordinates_cartesian[i].isEqual(coordinates_cartesian[i]));
+			assertTrue(coordinates_spheric[i].isEqual(coordinates_spheric[i]));
+			assertTrue(coordinates_cartesian[i].isEqual(coordinates_spheric[i]));
+			assertTrue(coordinates_spheric[i].isEqual(coordinates_cartesian[i]));
+		}
 	}
 	
 	@Test
-	public void testIsEqualSameValues() {
-		assertTrue(coordinate1.isEqual(new Coordinate(0, 0, 0)));
+	public void testAsCartesian() {
+		for (int i=0; i < coordinates_cartesian.length; i++) {
+			assertTrue(coordinates_cartesian[i].isEqual(coordinates_spheric[i].asCartesianCoordinate()));
+			assertTrue(coordinates_spheric[i].isEqual(coordinates_cartesian[i].asCartesianCoordinate()));
+		}
 	}
 	
 	@Test
-	public void testIsEqualDifferentValues() {
-		assertFalse(coordinate1.isEqual(new Coordinate(1, 0, 0)));
+	public void testAsSpheric() {
+		for (int i=0; i < coordinates_cartesian.length; i++) {
+			assertTrue(coordinates_cartesian[i].isEqual(coordinates_spheric[i].asSphericCoordinate()));
+			assertTrue(coordinates_spheric[i].isEqual(coordinates_cartesian[i].asSphericCoordinate()));
+
+		}
 	}
 	
 	@Test
-	public void testGetDistanceSameCoordinate() {
-		assertEquals(0, coordinate1.getDistance(coordinate1), 0.0);
+	public void testGetCentralAngle() {
+		for (int i=0; i < coordinates_cartesian.length; i++) {
+			assertEquals(0, coordinates_cartesian[i].getCentralAngle(coordinates_spheric[i]), double_threshold);
+			assertEquals(0, coordinates_cartesian[i].getCentralAngle(coordinates_spheric[i]), double_threshold);
+		}
 	}
-	
-	@Test
-	public void testGetDistanceSameValue() {
-		assertEquals(0, coordinate1.getDistance(new Coordinate(0, 0, 0)), 0.0);
+	/*
+	 * 		System.out.println(coordinates_spheric[i].asCartesianCoordinate().getX());
+			System.out.println(coordinates_spheric[i].asCartesianCoordinate().getY());
+			System.out.println(coordinates_spheric[i].asCartesianCoordinate().getZ());
+			System.out.println(coordinates_cartesian[i].getCartesianDistance(coordinates_spheric[i]));
+			System.out.println();
+	 */
+	private void print(SphericCoordinate c) {
+		System.out.println(c.getPhi());
+		System.out.println(c.getTheta());
+		System.out.println(c.getRadius());
 	}
-	
-	@Test
-	public void testGetDistanceSimple() {
-		assertEquals(1, coordinate1.getDistance(new Coordinate(1, 0, 0)), 0.0);
-	}
-	
-	@Test
-	public void testGetDistanceComplex() {
-		double result = coordinate1.getDistance(new Coordinate(12, 2, 63.72810));
-		assertEquals(64.87889278964307, result, 1e-20);
-	}
-	
-	@Test (expected = ArithmeticException.class)
-	public void testGetDistanceOverflow() throws Exception {
-		Coordinate coordinate2 = new Coordinate(Double.MAX_VALUE, 0, 0);
-		Coordinate coordinate3 = new Coordinate(-1, 0, 0);
-		
-		coordinate2.getDistance(coordinate3);
-	}
+
 }

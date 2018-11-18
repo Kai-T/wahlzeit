@@ -29,7 +29,7 @@ public class LocationTest {
 
 	@Test
 	public void testCreation() {
-		Coordinate coordinate = new Coordinate(0,0,0);
+		Coordinate coordinate = new CartesianCoordinate(0,0,0);
 		Location location = new Location(coordinate);
 		/* This will fail if the creation doesn't work as it should. */
 	}

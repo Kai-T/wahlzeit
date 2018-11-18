@@ -17,83 +17,35 @@
  * License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-
 package org.wahlzeit.model;
 
-import java.lang.Math;
+public interface Coordinate {
 
-/**
- * A Coordinate represents a position via three cartesian coordinates.
- */
-public class Coordinate {
-
-	private double x = 0;
-	private double y = 0;
-	private double z = 0;
+	static final double compare_threshold = 0.000001;
 	
 	/**
-	 * @methodtype constructor
+	 * Return the coordinate as a CratesianCoordinate
 	 */
-	public Coordinate(double x, double y, double z) {
-		/*
-		 * A Coordinate with one of the values being NaN or infinite might lead to problems later. 
-		 * That's why I prevent this situation from happening. 
-		 */
-		if (Double.isNaN(x) || Double.isNaN(y) ||Double.isNaN(z)) {
-			throw new IllegalArgumentException("A Coordinate must not contain NaN!");
-		}
-		if (Double.isInfinite(x) || Double.isInfinite(y) ||Double.isInfinite(z)) {
-			throw new IllegalArgumentException("A Coordinate must not contain infinite!");
-		}
-		
-		this.x = x;
-		this.y = y;
-		this.z = z;
-	}
+	CartesianCoordinate asCartesianCoordinate();
 	
 	/**
 	 * Calculate the direct cartesian distance between the coordinates.
-	 * @param coordinate	the second coordinate
-	 * @return				the calculated distance
 	 */
-	public double getDistance(Coordinate coordinate) {
-		/* 
-		 * None of the values in both coordinates can be NaN or infinite, 
-		 * because the constructor prevents that.  
-		 * */
-		double x_diff = this.x - coordinate.x;
-		double y_diff = this.y - coordinate.y;
-		double z_diff = this.z - coordinate.z;
-		
-		double radicand = x_diff * x_diff + y_diff * y_diff + z_diff * z_diff;
-		
-		/* If the values where too big for a double, throw an exception. */
-		if (Double.isInfinite(radicand)) {
-			throw new ArithmeticException("In the calculation the values got bigger than Double.MAX_VALUE.");
-		}
-		
-		return Math.sqrt(radicand);
-	}
+	double getCartesianDistance(Coordinate coordinate);
+
+	/**
+	 * Return the coordinate as a SphericCoordinate
+	 */
+	SphericCoordinate asSphericCoordinate();
+	
+	/**
+	 * Calculate the central angle in rad between the coordinates.
+	 */
+	double getCentralAngle(Coordinate coordinate);
 	
 	/**
 	 * Return whether the given coordinate equals this coordinate.
-	 * @param 	coordinate the coordinate this coordinate is compared to
-	 * @return	the result of the comparison
 	 */
-	public boolean isEqual(Coordinate coordinate) {
-		return (this.x == coordinate.x) 
-			   && (this.y == coordinate.y) 
-			   && (this.z == coordinate.z);
-	}	
+	boolean isEqual(Coordinate coordinate);
 	
-	
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj.getClass().equals(Coordinate.class))){
-			return false;
-		}
-		return this.isEqual((Coordinate)obj);
-	}
 }
