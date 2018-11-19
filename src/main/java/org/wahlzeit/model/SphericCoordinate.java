@@ -134,8 +134,10 @@ public class SphericCoordinate implements Coordinate {
 	}
 
 	private double doGetCentralAngle(SphericCoordinate c) {
-
-	
+		if (getRadius() == 0 || c.getRadius() == 0) {
+			throw new ArithmeticException("Can not compute central angle with the center of the coordinatesystem");
+		}
+		
 		double phi_diff = Math.abs(phi - c.phi);
 
 		double central_angle = Math.acos(

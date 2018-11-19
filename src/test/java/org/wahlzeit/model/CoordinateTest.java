@@ -77,10 +77,16 @@ public class CoordinateTest {
 	}
 	
 	@Test
-	public void testGetCentralAngle() {
-		for (int i=0; i < coordinates_cartesian.length; i++) {
+	public void testGetCentralAngleWorking() {
+		for (int i=1; i < coordinates_cartesian.length; i++) {
 			assertEquals(0, coordinates_cartesian[i].getCentralAngle(coordinates_spheric[i]), double_threshold);
 			assertEquals(0, coordinates_cartesian[i].getCentralAngle(coordinates_spheric[i]), double_threshold);
 		}
+	}
+	
+	@Test (expected=ArithmeticException.class)
+	public void testGetCentralAngleError() {
+		assertEquals(0, coordinates_cartesian[0].getCentralAngle(coordinates_spheric[0]), double_threshold);
+		assertEquals(0, coordinates_cartesian[0].getCentralAngle(coordinates_spheric[0]), double_threshold);
 	}
 }
