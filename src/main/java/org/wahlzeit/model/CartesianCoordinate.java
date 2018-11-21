@@ -25,7 +25,7 @@ import java.lang.Math;
 /**
  * A Coordinate class that represents a position via three cartesian coordinates.
  */
-public class CartesianCoordinate implements Coordinate {
+public class CartesianCoordinate extends AbstractCoordinate {
 	
 
 	private double x = 0;
@@ -75,58 +75,6 @@ public class CartesianCoordinate implements Coordinate {
 	public double getZ() {
 		return z;
 	}
-	
-	
-	@Override
-	public double getCartesianDistance(Coordinate coordinate) {
-		CartesianCoordinate c = coordinate.asCartesianCoordinate();
-		//assertValidCoordinate(c); not needed, is done in asCartesianCoordinate anyways
-		return doGetCartesianDistance(c);
-	}
-	
-	/**
-	 * Calculate the direct cartesian distance between the coordinates.
-	 * @param coordinate	the second coordinate
-	 * @return				the calculated distance
-	 */
-	private double doGetCartesianDistance(CartesianCoordinate coordinate) {
-		/* 
-		 * None of the values in both coordinates can be NaN or infinite, 
-		 * because the assertion method in getCartesianDistance
-		 * */
-		double x_diff = getX() - coordinate.getX();
-		double y_diff = getY() - coordinate.getY();
-		double z_diff = getZ() - coordinate.getZ();
-		
-		double radicand = x_diff * x_diff + y_diff * y_diff + z_diff * z_diff;
-		
-		/* If the values where too big for a double, throw an exception. */
-		if (Double.isInfinite(radicand)) {
-			throw new ArithmeticException("In the calculation the values got bigger than Double.MAX_VALUE.");
-		}
-		
-		return Math.sqrt(radicand);
-	}
-	
-	/**
-	 * Return whether the given coordinate equals this coordinate.
-	 */
-	@Override
-	public boolean isEqual(Coordinate coordinate) {
-		double dist = getCartesianDistance(coordinate);
-		return Math.abs(dist) <= compare_threshold;
-	}	
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj.getClass().equals(Coordinate.class))){
-			return false;
-		}
-		return this.isEqual((Coordinate)obj);
-	}
 
 	@Override
 	public CartesianCoordinate asCartesianCoordinate() {
@@ -154,8 +102,4 @@ public class CartesianCoordinate implements Coordinate {
 		return new SphericCoordinate(phi, theta, radius);
 	}
 
-	@Override
-	public double getCentralAngle(Coordinate coordinate) {
-		return asSphericCoordinate().getCentralAngle(coordinate);
-	}
 }

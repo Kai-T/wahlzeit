@@ -20,8 +20,6 @@
 package org.wahlzeit.model;
 
 public interface Coordinate {
-
-	static final double compare_threshold = 0.000001;
 	
 	/**
 	 * Return the coordinate as a CratesianCoordinate

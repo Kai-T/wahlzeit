@@ -20,7 +20,7 @@
 
 package org.wahlzeit.model;
 
-public class SphericCoordinate implements Coordinate {
+public class SphericCoordinate extends AbstractCoordinate {
 
 	private double phi = 0; //azimuth angle
 	private double theta = 0; //polar angle
@@ -114,46 +114,12 @@ public class SphericCoordinate implements Coordinate {
 		return new CartesianCoordinate(x, y, z);
 	}
 
-
-	@Override
-	public double getCartesianDistance(Coordinate coordinate) {
-		return asCartesianCoordinate().getCartesianDistance(coordinate);
-	}
-
-
 	@Override
 	public SphericCoordinate asSphericCoordinate() {
 		return this;
 	}
 
 
-	@Override
-	public double getCentralAngle(Coordinate coordinate) {
-		SphericCoordinate c = coordinate.asSphericCoordinate();		
-		return doGetCentralAngle(c);
-	}
 
-	private double doGetCentralAngle(SphericCoordinate c) {
-		if (getRadius() == 0 || c.getRadius() == 0) {
-			throw new ArithmeticException("Can not compute central angle with the center of the coordinatesystem");
-		}
-		
-		double phi_diff = Math.abs(phi - c.phi);
-
-		double central_angle = Math.acos(
-				Math.cos(theta) * Math.cos(c.theta) 
-				+ Math.sin(theta) * Math.sin(c.theta) * Math.cos(phi_diff));
-		
-		return central_angle;
-	}
-
-	/**
-	 * Return whether the given coordinate equals this coordinate.
-	 */
-	@Override
-	public boolean isEqual(Coordinate coordinate) {
-		double dist = getCartesianDistance(coordinate);
-		return Math.abs(dist) <= compare_threshold;
-	}
 
 }
