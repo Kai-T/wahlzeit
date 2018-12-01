@@ -87,7 +87,7 @@ public class CartesianCoordinateTest {
 		assertEquals(64.87889278964307, result, 1e-20);
 	}
 	
-	@Test (expected = ArithmeticException.class)
+	@Test (expected = Exception.class)
 	public void testGetDistanceOverflow() throws Exception {
 		Coordinate coordinate2 = new CartesianCoordinate(Double.MAX_VALUE, 0, 0);
 		Coordinate coordinate3 = new CartesianCoordinate(-1, 0, 0);

@@ -23,6 +23,7 @@ public interface Coordinate {
 	
 	/**
 	 * Return the coordinate as a CratesianCoordinate
+	 * @Methodtype conversion
 	 */
 	CartesianCoordinate asCartesianCoordinate();
 	
@@ -33,6 +34,7 @@ public interface Coordinate {
 
 	/**
 	 * Return the coordinate as a SphericCoordinate
+	 * @Methodtype conversion
 	 */
 	SphericCoordinate asSphericCoordinate();
 	
@@ -43,6 +45,7 @@ public interface Coordinate {
 	
 	/**
 	 * Return whether the given coordinate equals this coordinate.
+	 * @Methodtype boolean query
 	 */
 	boolean isEqual(Coordinate coordinate);
 	

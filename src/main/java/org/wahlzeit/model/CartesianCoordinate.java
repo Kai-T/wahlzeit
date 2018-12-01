@@ -37,23 +37,22 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		assertValidCoordinate(this);
+		assertClassInvariants();
 	}
+	
 	
 	/**
 	 * @MethodType assertion
 	 */	
-	private void assertValidCoordinate(CartesianCoordinate c) {
-		if (c == null) {
-			throw new NullPointerException();
-		}
-		if (Double.isNaN(c.getX()) || Double.isNaN(c.getY()) ||Double.isNaN(c.getZ())) {
+	private void assertClassInvariants() {
+		if (Double.isNaN(getX()) || Double.isNaN(getY()) ||Double.isNaN(getZ())) {
 			throw new IllegalArgumentException("A Coordinate must not contain NaN!");
 		}
-		if (Double.isInfinite(c.getX()) || Double.isInfinite(c.getY()) ||Double.isInfinite(c.getZ())) {
+		if (Double.isInfinite(getX()) || Double.isInfinite(getY()) ||Double.isInfinite(getZ())) {
 			throw new IllegalArgumentException("A Coordinate must not contain infinite!");
 		}
 	}
+
 	
 	/**
 	 * @MethodType get
@@ -62,12 +61,14 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		return x;
 	}
 	
+	
 	/**
 	 * @MethodType get
 	 */	
 	public double getY() {
 		return y;
 	}
+	
 	
 	/**
 	 * @MethodType get
@@ -76,17 +77,28 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		return z;
 	}
 
+
+	/**
+	 * 	@Methodtype conversion
+	 */
 	@Override
-	public CartesianCoordinate asCartesianCoordinate() {
+	public CartesianCoordinate doAsCartesianCoordinate() {
 		return this;
 	}
 
+
+	/**
+	 * 	@Methodtype conversion
+	 */
 	@Override
-	public SphericCoordinate asSphericCoordinate() {
-		double radius  = getCartesianDistance(new CartesianCoordinate(0,0,0));
+	public SphericCoordinate doAsSphericCoordinate() {
+		double radius  = Math.sqrt(getX() * getX() + getY() * getY() + getZ() * getZ());
 		double phi = 0;
 		if (x!=0) {
 			phi = Math.atan(y / x);
+			if (x < 0) {
+				phi += Math.PI;
+			}
 		} else {
 			if (y > 0) {
 				phi = Math.PI / 2;

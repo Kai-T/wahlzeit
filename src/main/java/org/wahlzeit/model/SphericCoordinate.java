@@ -30,9 +30,10 @@ public class SphericCoordinate extends AbstractCoordinate {
 		this.phi = phi;
 		this.theta = theta;
 		this.radius = radius;
-		assertValidCoordinate(this);
 		normalize();
+		assertClassInvariants();
 	}
+	
 	
 	/**
 	 * @MethodType assertion
@@ -49,12 +50,31 @@ public class SphericCoordinate extends AbstractCoordinate {
 		}
 	}
 	
+	
+	/**
+	 * @MethodType assertion
+	 */	
+	private void assertClassInvariants() {
+		assertValidCoordinate(this);
+		if (radius < 0) {
+			throw new IllegalStateException("radius in a SphericCoordinate must not be smaller than 0!");
+		}
+		if (phi < 0 || phi > 2 * Math.PI) {
+			throw new IllegalStateException("phi in a SphericCoordinate must be within [0, 2pi]!");
+		}
+		if (theta < 0 || theta > Math.PI) {
+			throw new IllegalStateException("radius in a SphericCoordinate must be within [0, pi]!");
+		}
+	}
+	
+	
 	/**
 	 * @MethodType get
 	 */	
 	public double getRadius() {
 		return radius;
 	}
+	
 	
 	/**
 	 * @MethodType get
@@ -63,18 +83,22 @@ public class SphericCoordinate extends AbstractCoordinate {
 		return theta;
 	}
 	
+	
 	/**
 	 * @MethodType get
 	 */	
 	public double getPhi() {
 		return phi;
 	}
+	
 
 	/**
 	 * Makes sure radius is positive, phi is within [0, 2pi] and theta within [0, pi]
-	 * @MethodType helper
+	 * @MethodType mutation
 	 */
 	private void normalize() {
+		
+		assertValidCoordinate(this);
 		
 		//normalize radius
 		if (radius < 0) {
@@ -103,23 +127,29 @@ public class SphericCoordinate extends AbstractCoordinate {
 		while(phi >= Math.PI * 2) {
 			phi -= (Math.PI * 2);
 		}
+		assertClassInvariants();
 	}
 	
+	
+	/**
+	 * 	@Methodtype conversion
+	 */
 	@Override
-	public CartesianCoordinate asCartesianCoordinate() {
+	public CartesianCoordinate doAsCartesianCoordinate() {
 		double x = radius * Math.cos(phi) * Math.sin(theta);
 		double y = radius * Math.sin(phi) * Math.sin(theta);
 		double z = radius * Math.cos(theta);
 		
 		return new CartesianCoordinate(x, y, z);
 	}
+	
 
+	/**
+	 * 	@Methodtype conversion
+	 */
 	@Override
-	public SphericCoordinate asSphericCoordinate() {
+	public SphericCoordinate doAsSphericCoordinate() {
 		return this;
 	}
-
-
-
-
+	
 }

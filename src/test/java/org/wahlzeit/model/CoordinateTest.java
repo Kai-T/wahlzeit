@@ -29,8 +29,8 @@ public class CoordinateTest {
 	private static final double double_threshold = 1e-10;
 
 	
-	private Coordinate[] coordinates_cartesian = new Coordinate [4];
-	private Coordinate[] coordinates_spheric = new Coordinate [4];
+	private Coordinate[] coordinates_cartesian = new Coordinate [5];
+	private Coordinate[] coordinates_spheric = new Coordinate [5];
 
 	@Before
 	public void setUp() {
@@ -38,11 +38,13 @@ public class CoordinateTest {
 		coordinates_cartesian[1] = new CartesianCoordinate(1, 0, 0);
 		coordinates_cartesian[2] = new CartesianCoordinate(0, -2, 0);
 		coordinates_cartesian[3] = new CartesianCoordinate(0, 3, 4);
+		coordinates_cartesian[4] = new CartesianCoordinate(-1/Math.sqrt(2), 0, -1/Math.sqrt(2));
 		
 		coordinates_spheric[0] = new SphericCoordinate(0, 0, 0);
 		coordinates_spheric[1] = new SphericCoordinate(0, Math.PI/2, 1);
 		coordinates_spheric[2] = new SphericCoordinate(-Math.PI/2, Math.PI/2, 2);
-		coordinates_spheric[3] = new SphericCoordinate(Math.PI/2, Math.asin(3. / 5.), 5);		
+		coordinates_spheric[3] = new SphericCoordinate(Math.PI/2, Math.asin(3. / 5.), 5);	
+		coordinates_spheric[4] = new SphericCoordinate(Math.PI,  3 * Math.PI / 4, 1);
 	}
 
 	@After
