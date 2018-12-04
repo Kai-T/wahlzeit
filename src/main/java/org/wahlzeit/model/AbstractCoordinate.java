@@ -31,7 +31,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 		CartesianCoordinate ret = doAsCartesianCoordinate();
 		assertIsNotNull(ret);		
 		if (! valueCompare(ret.doAsSphericCoordinate(), this.doAsSphericCoordinate())) {
-			throw new IllegalStateException("The coordinate was not converted correctly2!");
+			throw new IllegalStateException("The coordinate was not converted correctly!");
 		}
 
 		return ret;
@@ -67,7 +67,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 		SphericCoordinate ret = doAsSphericCoordinate();
 		assertIsNotNull(ret);
 		if (!valueCompare(ret.doAsCartesianCoordinate(), this.doAsCartesianCoordinate())) {
-			throw new IllegalStateException("The coordinate was not converted correctly2!");
+			throw new IllegalStateException("The coordinate was not converted correctly!");
 		}
 
 		return ret;
@@ -104,7 +104,11 @@ public abstract class AbstractCoordinate implements Coordinate {
 	@Override
 	public double getCartesianDistance(Coordinate coordinate) {
 		assertIsNotNull(coordinate);
-		return doGetCartesianDistance(this.asCartesianCoordinate(), coordinate.asCartesianCoordinate());
+		double dist = doGetCartesianDistance(this.asCartesianCoordinate(), coordinate.asCartesianCoordinate());
+		if (dist < 0) {
+			throw new IllegalStateException("the calculated distance is smaller than 0. This has to be an implementation error");
+		}
+		return dist;
 	}
 	
 	
@@ -138,7 +142,11 @@ public abstract class AbstractCoordinate implements Coordinate {
 			throw new ArithmeticException("Can not compute central angle with the center of the coordinatesystem");
 		}
 		
-		return doGetCentralAngle(c1, c2);
+		double dist = doGetCentralAngle(c1, c2);
+		if (dist < 0 || dist > Math.PI) {
+			throw new IllegalStateException("the calculated central angle is not in the valid range. This has to be an implementation error");
+		}
+		return dist;
 	}
 
 	
@@ -176,6 +184,19 @@ public abstract class AbstractCoordinate implements Coordinate {
 			return false;
 		}
 		return this.isEqual((Coordinate)obj);
+	}
+	
+	
+	/**
+	 * @MethodType assertion
+	 */	
+	protected void assertValidDouble(double d) {
+		if (Double.isNaN(d)) {
+			throw new IllegalArgumentException("This value must not be NaN!");
+		}
+		if (Double.isInfinite(d)) {
+			throw new IllegalArgumentException("This value mustt not be infinite!");
+		}
 	}
 
 }

@@ -28,15 +28,20 @@ import java.lang.Math;
 public class CartesianCoordinate extends AbstractCoordinate {
 	
 
-	private double x = 0;
-	private double y = 0;
-	private double z = 0;
+	private final double x;
+	private final double y;
+	private final double z;
 	
 
 	public CartesianCoordinate(double x, double y, double z) {
+		assertValidDouble(x);
+		assertValidDouble(y);
+		assertValidDouble(z);
+
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		
 		assertClassInvariants();
 	}
 	

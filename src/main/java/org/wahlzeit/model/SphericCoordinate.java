@@ -22,15 +22,18 @@ package org.wahlzeit.model;
 
 public class SphericCoordinate extends AbstractCoordinate {
 
-	private double phi = 0; //azimuth angle
-	private double theta = 0; //polar angle
-	private double radius = 0;
+	private final double phi; //azimuth angle
+	private final double theta; //polar angle
+	private final double radius;
 	
 	public SphericCoordinate(double phi, double theta, double radius) {
-		this.phi = phi;
-		this.theta = theta;
-		this.radius = radius;
-		normalize();
+		assertValidDouble(phi);
+		assertValidDouble(theta);
+		assertValidDouble(radius);
+		Double [] ret = normalize(phi, theta, radius);
+		this.phi = ret[0];
+		this.theta = ret[1];
+		this.radius = ret[2];
 		assertClassInvariants();
 	}
 	
@@ -42,12 +45,9 @@ public class SphericCoordinate extends AbstractCoordinate {
 		if (coordinate == null) {
 			throw new NullPointerException();
 		}
-		if (Double.isNaN(coordinate.getPhi()) || Double.isNaN(coordinate.getTheta()) ||Double.isNaN(coordinate.getRadius())) {
-			throw new IllegalArgumentException("A Coordinate must not contain NaN!");
-		}
-		if (Double.isInfinite(coordinate.getPhi()) || Double.isInfinite(coordinate.getTheta()) ||Double.isInfinite(coordinate.getRadius())) {
-			throw new IllegalArgumentException("A Coordinate must not contain infinite!");
-		}
+		assertValidDouble(coordinate.getPhi());
+		assertValidDouble(coordinate.getRadius());
+		assertValidDouble(coordinate.getTheta());
 	}
 	
 	
@@ -94,11 +94,13 @@ public class SphericCoordinate extends AbstractCoordinate {
 
 	/**
 	 * Makes sure radius is positive, phi is within [0, 2pi] and theta within [0, pi]
-	 * @MethodType mutation
+	 * @MethodType helper
 	 */
-	private void normalize() {
+	private Double[] normalize(double phi, double theta, double radius) {
 		
 		assertValidCoordinate(this);
+		
+		Double[] ret  = new Double[3];
 		
 		//normalize radius
 		if (radius < 0) {
@@ -127,7 +129,12 @@ public class SphericCoordinate extends AbstractCoordinate {
 		while(phi >= Math.PI * 2) {
 			phi -= (Math.PI * 2);
 		}
-		assertClassInvariants();
+		
+		ret[0] = phi;
+		ret[1] = theta;
+		ret[2] = radius;
+		
+		return ret;
 	}
 	
 	
