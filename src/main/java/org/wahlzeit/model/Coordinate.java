@@ -24,28 +24,43 @@ public interface Coordinate {
 	/**
 	 * Return the coordinate as a CratesianCoordinate
 	 * @Methodtype conversion
+	 * 
+	 * Precondition: -
+	 * Postcondition: returns a CartesianCoordinate that represents the same position as the original Coordinate 
 	 */
 	CartesianCoordinate asCartesianCoordinate();
 	
 	/**
 	 * Calculate the direct cartesian distance between the coordinates.
+	 * 
+	 * Precondition: coordinate must not be null
+	 * Postcondition: the distance is >= 0
 	 */
 	double getCartesianDistance(Coordinate coordinate);
 
 	/**
 	 * Return the coordinate as a SphericCoordinate
 	 * @Methodtype conversion
+	 * 
+	 * Precondition: -
+	 * Postcondition: returns a SphericCoordinate that represents the same position as the original Coordinate 
 	 */
 	SphericCoordinate asSphericCoordinate();
 	
 	/**
 	 * Calculate the central angle in rad between the coordinates.
+	 * 
+	 * Precondition: coordinate must not be null and must not represent the origin of the coordinate system
+	 * Postcondition: the centralAngle is within [0, pi]
 	 */
 	double getCentralAngle(Coordinate coordinate);
 	
 	/**
 	 * Return whether the given coordinate equals this coordinate.
 	 * @Methodtype boolean query
+	 * 
+	 * Precondition: coordinate must not be null
+	 * Postcondition: -
 	 */
 	boolean isEqual(Coordinate coordinate);
 	
