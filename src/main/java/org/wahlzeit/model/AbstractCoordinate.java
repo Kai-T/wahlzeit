@@ -107,14 +107,23 @@ public abstract class AbstractCoordinate implements Coordinate {
 	 */	
 	protected void assertIsNotNull(Coordinate c) {
 		if (c == null) {
-			throw new NullPointerException();
+			NullPointerException ex = new NullPointerException();
+			log.warning(
+					LogBuilder.createSystemMessage().addException("Unexpected null value", ex).toString());
+			throw ex;
 		}
 	}
 	
 	
 	@Override
 	public double getCartesianDistance(Coordinate coordinate) {
-		assertIsNotNull(coordinate);
+		try {
+			assertIsNotNull(coordinate);
+		} catch (NullPointerException e) {
+			IllegalArgumentException ex = new IllegalArgumentException("getCartesianDistance got a null argument!", e);
+			log.warning(
+					LogBuilder.createSystemMessage().addException("getCartesianDistance failed", ex).toString());
+		}
 		double dist = doGetCartesianDistance(this.asCartesianCoordinate(), coordinate.asCartesianCoordinate());
 		if (dist < 0) {		
 			IllegalStateException ex = new IllegalStateException("The calculated distance is smaller than 0. This has to be an implementation error");
@@ -152,7 +161,13 @@ public abstract class AbstractCoordinate implements Coordinate {
 	
 	@Override
 	public double getCentralAngle(Coordinate coordinate) {
-		assertIsNotNull(coordinate);
+		try {
+			assertIsNotNull(coordinate);
+		} catch (NullPointerException e) {
+			IllegalArgumentException ex = new IllegalArgumentException("getCentralAngle got a null argument!", e);
+			log.warning(
+					LogBuilder.createSystemMessage().addException("getCentralAngle failed", ex).toString());
+		}
 		SphericCoordinate c1 = this.asSphericCoordinate();
 		SphericCoordinate c2 = coordinate.asSphericCoordinate();
 		if (c1.getRadius() == 0 || c2.getRadius() == 0) {
@@ -189,7 +204,13 @@ public abstract class AbstractCoordinate implements Coordinate {
 	 */
 	@Override
 	public boolean isEqual(Coordinate coordinate) {
-		assertIsNotNull(coordinate);
+		try {
+			assertIsNotNull(coordinate);
+		} catch (NullPointerException e) {
+			IllegalArgumentException ex = new IllegalArgumentException("isEqual got a null argument!", e);
+			log.warning(
+					LogBuilder.createSystemMessage().addException("isEqual failed", ex).toString());
+		}
 		double dist = getCartesianDistance(coordinate);
 		return Math.abs(dist) <= compare_threshold;
 	}
