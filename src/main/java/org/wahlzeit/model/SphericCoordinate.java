@@ -20,6 +20,8 @@
 
 package org.wahlzeit.model;
 
+import org.wahlzeit.services.LogBuilder;
+
 public class SphericCoordinate extends AbstractCoordinate {
 
 	private final double phi; //azimuth angle
@@ -42,12 +44,18 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @MethodType assertion
 	 */	
 	private void assertValidCoordinate(SphericCoordinate coordinate) {
-		if (coordinate == null) {
-			throw new NullPointerException();
+		try {
+			if (coordinate == null) {
+				throw new NullPointerException();
+			}
+			assertValidDouble(coordinate.getPhi());
+			assertValidDouble(coordinate.getRadius());
+			assertValidDouble(coordinate.getTheta());
+		} catch (Exception e) {
+			log.warning(
+					LogBuilder.createSystemMessage().addException("Invalid values in SphericCoordinate!", e).toString());
+			throw e;
 		}
-		assertValidDouble(coordinate.getPhi());
-		assertValidDouble(coordinate.getRadius());
-		assertValidDouble(coordinate.getTheta());
 	}
 	
 	
@@ -55,15 +63,26 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @MethodType assertion
 	 */	
 	private void assertClassInvariants() {
-		assertValidCoordinate(this);
+		Exception ex = null;
+		
+		try {
+			assertValidCoordinate(this);
+		} catch (Exception e) {
+			ex = e;
+		}
 		if (radius < 0) {
-			throw new IllegalStateException("radius in a SphericCoordinate must not be smaller than 0!");
+			ex = new IllegalStateException("Radius in a SphericCoordinate must not be smaller than 0!");
 		}
 		if (phi < 0 || phi > 2 * Math.PI) {
-			throw new IllegalStateException("phi in a SphericCoordinate must be within [0, 2pi]!");
+			ex = new IllegalStateException("Phi in a SphericCoordinate must be within [0, 2pi]!");
 		}
 		if (theta < 0 || theta > Math.PI) {
-			throw new IllegalStateException("radius in a SphericCoordinate must be within [0, pi]!");
+			ex = new IllegalStateException("Theta in a SphericCoordinate must be within [0, pi]!");
+		}
+		if (ex != null) {
+			log.warning(
+					LogBuilder.createSystemMessage().addException("Class invarint for SphericCoordinate was violated!", ex).toString());
+			throw new IllegalStateException("Class invarint for SphericCoordinate was violated!", ex);
 		}
 	}
 	

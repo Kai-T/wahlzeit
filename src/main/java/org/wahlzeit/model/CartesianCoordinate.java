@@ -22,6 +22,8 @@ package org.wahlzeit.model;
 
 import java.lang.Math;
 
+import org.wahlzeit.services.LogBuilder;
+
 /**
  * A Coordinate class that represents a position via three cartesian coordinates.
  */
@@ -50,11 +52,14 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * @MethodType assertion
 	 */	
 	private void assertClassInvariants() {
-		if (Double.isNaN(getX()) || Double.isNaN(getY()) ||Double.isNaN(getZ())) {
-			throw new IllegalArgumentException("A Coordinate must not contain NaN!");
-		}
-		if (Double.isInfinite(getX()) || Double.isInfinite(getY()) ||Double.isInfinite(getZ())) {
-			throw new IllegalArgumentException("A Coordinate must not contain infinite!");
+		try {
+			assertValidDouble(getX());
+			assertValidDouble(getY());
+			assertValidDouble(getZ());
+		} catch (IllegalArgumentException e) {
+			log.warning(
+					LogBuilder.createSystemMessage().addException("Class invariant for CartesianCoordinate was violated!", e).toString());
+			throw new IllegalStateException("Class invariant for CartesianCoordinate was violated!", e);
 		}
 	}
 

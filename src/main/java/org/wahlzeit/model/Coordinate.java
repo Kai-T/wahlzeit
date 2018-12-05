@@ -36,7 +36,7 @@ public interface Coordinate {
 	 * Precondition: coordinate must not be null
 	 * Postcondition: the distance is >= 0
 	 */
-	double getCartesianDistance(Coordinate coordinate);
+	double getCartesianDistance(Coordinate coordinate) throws NullPointerException;
 
 	/**
 	 * Return the coordinate as a SphericCoordinate
@@ -53,7 +53,7 @@ public interface Coordinate {
 	 * Precondition: coordinate must not be null and must not represent the origin of the coordinate system
 	 * Postcondition: the centralAngle is within [0, pi]
 	 */
-	double getCentralAngle(Coordinate coordinate);
+	double getCentralAngle(Coordinate coordinate) throws ArithmeticException, NullPointerException;
 	
 	/**
 	 * Return whether the given coordinate equals this coordinate.
@@ -62,6 +62,6 @@ public interface Coordinate {
 	 * Precondition: coordinate must not be null
 	 * Postcondition: -
 	 */
-	boolean isEqual(Coordinate coordinate);
+	boolean isEqual(Coordinate coordinate) throws NullPointerException;
 	
 }

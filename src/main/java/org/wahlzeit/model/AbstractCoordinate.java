@@ -19,7 +19,12 @@
  */
 package org.wahlzeit.model;
 
+import java.util.logging.Logger;
+import org.wahlzeit.services.LogBuilder;
+
 public abstract class AbstractCoordinate implements Coordinate {
+	
+	protected static final Logger log = Logger.getLogger(AbstractCoordinate.class.getName());
 	
 	private static final double compare_threshold = 0.000001;
 	
@@ -31,7 +36,10 @@ public abstract class AbstractCoordinate implements Coordinate {
 		CartesianCoordinate ret = doAsCartesianCoordinate();
 		assertIsNotNull(ret);		
 		if (! valueCompare(ret.doAsSphericCoordinate(), this.doAsSphericCoordinate())) {
-			throw new IllegalStateException("The coordinate was not converted correctly!");
+			IllegalStateException ex = new IllegalStateException("The coordinate was not converted correctly!");
+			log.warning(
+					LogBuilder.createSystemMessage().addException("Coordinate conversion to CartesianCooridnate failed!", ex).toString());
+			throw ex;
 		}
 
 		return ret;
@@ -67,7 +75,10 @@ public abstract class AbstractCoordinate implements Coordinate {
 		SphericCoordinate ret = doAsSphericCoordinate();
 		assertIsNotNull(ret);
 		if (!valueCompare(ret.doAsCartesianCoordinate(), this.doAsCartesianCoordinate())) {
-			throw new IllegalStateException("The coordinate was not converted correctly!");
+			IllegalStateException ex = new IllegalStateException("The coordinate was not converted correctly!");
+			log.warning(
+					LogBuilder.createSystemMessage().addException("Coordinate conversion to SphericCooridnate failed!", ex).toString());
+			throw ex;
 		}
 
 		return ret;
@@ -105,8 +116,11 @@ public abstract class AbstractCoordinate implements Coordinate {
 	public double getCartesianDistance(Coordinate coordinate) {
 		assertIsNotNull(coordinate);
 		double dist = doGetCartesianDistance(this.asCartesianCoordinate(), coordinate.asCartesianCoordinate());
-		if (dist < 0) {
-			throw new IllegalStateException("the calculated distance is smaller than 0. This has to be an implementation error");
+		if (dist < 0) {		
+			IllegalStateException ex = new IllegalStateException("The calculated distance is smaller than 0. This has to be an implementation error");
+			log.warning(
+					LogBuilder.createSystemMessage().addException("getCartesianDistance failed", ex).toString());
+			throw ex;
 		}
 		return dist;
 	}
@@ -126,7 +140,10 @@ public abstract class AbstractCoordinate implements Coordinate {
 		
 		/* If the values where too big for a double, throw an exception. */
 		if (Double.isInfinite(radicand)) {
-			throw new ArithmeticException("In the calculation the values got bigger than Double.MAX_VALUE.");
+			ArithmeticException ex = new ArithmeticException("In the calculation the values got bigger than Double.MAX_VALUE.");
+			log.warning(
+					LogBuilder.createSystemMessage().addException("doGetCartesianDistance failed", ex).toString());
+			throw ex;
 		}
 		
 		return Math.sqrt(radicand);
@@ -139,12 +156,18 @@ public abstract class AbstractCoordinate implements Coordinate {
 		SphericCoordinate c1 = this.asSphericCoordinate();
 		SphericCoordinate c2 = coordinate.asSphericCoordinate();
 		if (c1.getRadius() == 0 || c2.getRadius() == 0) {
-			throw new ArithmeticException("Can not compute central angle with the center of the coordinatesystem");
+			IllegalArgumentException ex = new IllegalArgumentException("Can not compute central angle with the center of the coordinatesystem.");
+			log.warning(
+					LogBuilder.createSystemMessage().addException("getCentralAngle failed", ex).toString());
+			throw ex;
 		}
 		
 		double dist = doGetCentralAngle(c1, c2);
 		if (dist < 0 || dist > Math.PI) {
-			throw new IllegalStateException("the calculated central angle is not in the valid range. This has to be an implementation error");
+			IllegalStateException ex = new IllegalStateException("the calculated central angle is not in the valid range. This has to be an implementation error.");
+			log.warning(
+					LogBuilder.createSystemMessage().addException("getCentralAngle failed", ex).toString());
+			throw ex;
 		}
 		return dist;
 	}
@@ -192,10 +215,16 @@ public abstract class AbstractCoordinate implements Coordinate {
 	 */	
 	protected void assertValidDouble(double d) {
 		if (Double.isNaN(d)) {
-			throw new IllegalArgumentException("This value must not be NaN!");
+			IllegalArgumentException ex = new IllegalArgumentException("This value must not be NaN!");
+			log.warning(
+					LogBuilder.createSystemMessage().addException("Got and invlid double as an argument!", ex).toString());
+			throw ex;
 		}
 		if (Double.isInfinite(d)) {
-			throw new IllegalArgumentException("This value mustt not be infinite!");
+			IllegalArgumentException ex = new IllegalArgumentException("This value must not be infinte!");
+			log.warning(
+					LogBuilder.createSystemMessage().addException("Got and invlid double as an argument!", ex).toString());
+			throw ex;
 		}
 	}
 

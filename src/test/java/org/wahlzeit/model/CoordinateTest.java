@@ -86,7 +86,7 @@ public class CoordinateTest {
 		}
 	}
 	
-	@Test (expected=ArithmeticException.class)
+	@Test (expected=IllegalArgumentException.class)
 	public void testGetCentralAngleError() {
 		assertEquals(0, coordinates_cartesian[0].getCentralAngle(coordinates_spheric[0]), double_threshold);
 		assertEquals(0, coordinates_cartesian[0].getCentralAngle(coordinates_spheric[0]), double_threshold);
