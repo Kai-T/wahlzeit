@@ -71,4 +71,13 @@ public class MushroomPhotoTest {
 			assertTrue(newPhoto instanceof MushroomPhoto);
 		}
 	}
+	
+	@Test
+	public void testEdible() {
+		MushroomPhoto foto = new MushroomPhoto();
+		foto.setEdible(true);
+		assertEquals(foto.getEdible(), true);
+		foto.setEdible(false);
+		assertEquals(foto.getEdible(), false);
+	}
 }

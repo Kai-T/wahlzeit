@@ -57,7 +57,10 @@ public class MushroomPhotoFactory extends PhotoFactory {
 	 */
 	protected static synchronized void setInstance(MushroomPhotoFactory photoFactory) {
 		if (instance != null) {
-			throw new IllegalStateException("attempt to initalize MushroomPhotoFactory twice");
+			IllegalStateException ex = new IllegalStateException("attempt to initalize MushroomPhotoFactory twice");
+			log.warning(
+					LogBuilder.createSystemMessage().addException("Error in setInstance!", ex).toString());
+			throw ex;
 		}
 		instance = photoFactory;
 	}

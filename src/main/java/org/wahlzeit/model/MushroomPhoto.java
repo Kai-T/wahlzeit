@@ -25,19 +25,27 @@ import com.googlecode.objectify.annotation.Subclass;
 @Subclass
 public class MushroomPhoto extends Photo {
 
-	/**
-	 * 
-	 */
+	private boolean edible;
+	
 	public MushroomPhoto() {
 		super();
 	}
 	
-	/**
-	 * 
-	 * @param id
-	 */
 	public MushroomPhoto(PhotoId id) {
 		super(id);
 	}
 
+	/**
+	 * @Methodtype getter
+	 */
+	public boolean getEdible() {
+		return edible;
+	}
+	
+	/**
+	 * @Methodtype setter
+	 */
+	public void setEdible(boolean edible) {
+		this.edible = edible;
+	}	
 }
