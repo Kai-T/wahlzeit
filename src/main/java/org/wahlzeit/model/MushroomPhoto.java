@@ -20,11 +20,15 @@
 
 package org.wahlzeit.model;
 
+import java.util.logging.Logger;
+
+import org.wahlzeit.services.LogBuilder;
+
 import com.googlecode.objectify.annotation.Subclass;
 
 @Subclass
 public class MushroomPhoto extends Photo {
-
+	
 	private boolean edible;
 	
 	public MushroomPhoto() {

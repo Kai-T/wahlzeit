@@ -54,8 +54,15 @@ public class MushroomPhotoFactory extends PhotoFactory {
 	/**
 	 * Method to set the singleton instance of PhotoFactory.
 	 * @methodtype set
+	 * precondition: photoFactory must bot be null
 	 */
 	protected static synchronized void setInstance(MushroomPhotoFactory photoFactory) {
+		if (photoFactory == null) {
+			NullPointerException ex = new NullPointerException("photoFactory must not be null");
+			log.warning(
+					LogBuilder.createSystemMessage().addException("Error in setInstance! The given photoFactory object was null.", ex).toString());
+			throw ex;
+		}
 		if (instance != null) {
 			IllegalStateException ex = new IllegalStateException("attempt to initalize MushroomPhotoFactory twice");
 			log.warning(
@@ -78,6 +85,12 @@ public class MushroomPhotoFactory extends PhotoFactory {
 	 * @methodtype factory
 	 */
 	public Photo createPhoto(PhotoId id) {
+		if (id == null) {
+			NullPointerException ex = new NullPointerException("PhotoId must not be null");
+			log.warning(
+					LogBuilder.createSystemMessage().addException("Error in createPhoto! The given PhotoId object was null.", ex).toString());
+			throw ex;
+		}
 		MushroomPhoto photo = new MushroomPhoto(id);
 		return photo;
 	}

@@ -40,5 +40,17 @@ public class MushroomPhotoFactoryTest {
 		assertTrue(factory.createPhoto() instanceof MushroomPhoto);
 		assertTrue(factory.createPhoto(PhotoId.getRandomId()) instanceof MushroomPhoto);
 	}
+	
+	@Test (expected=NullPointerException.class)
+	public void testCreatePhotoNullArgument() {
+		MushroomPhotoFactory.initialize();
+		PhotoFactory factory = MushroomPhotoFactory.getInstance();
+		factory.createPhoto(null);
+	}
+	
+	@Test (expected=NullPointerException.class)
+	public void testSetInstaceNullArgument() {
+		MushroomPhotoFactory.setInstance(null);
+	}
 
 }
