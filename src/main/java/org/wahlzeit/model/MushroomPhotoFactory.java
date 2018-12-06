@@ -46,7 +46,7 @@ public class MushroomPhotoFactory extends PhotoFactory {
 	public static synchronized PhotoFactory getInstance() {
 		if (instance == null) {
 			log.config(LogBuilder.createSystemMessage().addAction("setting specialzied MushroomPhotoFactory").toString());
-			setInstance(new MushroomPhotoFactory());
+			setInstance(new MushroomPhotoFactory());		
 		}
 		return instance;
 	}
@@ -86,10 +86,9 @@ public class MushroomPhotoFactory extends PhotoFactory {
 	 */
 	public Photo createPhoto(PhotoId id) {
 		if (id == null) {
-			NullPointerException ex = new NullPointerException("PhotoId must not be null");
 			log.warning(
-					LogBuilder.createSystemMessage().addException("Error in createPhoto! The given PhotoId object was null.", ex).toString());
-			throw ex;
+					LogBuilder.createSystemMessage().addMessage("createPhoto was given a PhotoId object that was null. Used the default implementation.").toString());
+			return createPhoto();
 		}
 		MushroomPhoto photo = new MushroomPhoto(id);
 		return photo;
