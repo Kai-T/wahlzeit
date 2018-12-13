@@ -21,6 +21,8 @@
 package org.wahlzeit.model;
 
 import java.lang.Math;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.wahlzeit.services.LogBuilder;
 
@@ -34,8 +36,9 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	private final double y;
 	private final double z;
 	
+	private static Map<Integer, CartesianCoordinate> allCartesianCoordinates = new ConcurrentHashMap<>();
 
-	public CartesianCoordinate(double x, double y, double z) {
+	private CartesianCoordinate(double x, double y, double z) {
 		assertValidDouble(x);
 		assertValidDouble(y);
 		assertValidDouble(z);
@@ -47,6 +50,20 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		assertClassInvariants();
 	}
 	
+	public static CartesianCoordinate getCartesianCoordinate(double x, double y, double z) {
+		int hash = createHashCode(x, y, z);
+		CartesianCoordinate coordinate = allCartesianCoordinates.get(hash);
+		if (coordinate == null) {
+			synchronized (allCartesianCoordinates){
+				coordinate = allCartesianCoordinates.get(hash);
+				if (coordinate == null) {
+					coordinate = new CartesianCoordinate(x, y, z);
+					allCartesianCoordinates.put(hash, coordinate);
+				}
+			}
+		}
+		return coordinate;		
+	}
 	
 	/**
 	 * @MethodType assertion
@@ -121,7 +138,40 @@ public class CartesianCoordinate extends AbstractCoordinate {
 			theta = Math.acos(z / radius);
 		}
 		
-		return new SphericCoordinate(phi, theta, radius);
+		return SphericCoordinate.getSphericCoordinate(phi, theta, radius);
+	}
+	
+	
+	@Override
+	public int hashCode() {
+		return createHashCode(getX(), getY(), getZ());
+	}
+	
+	
+	private static int createHashCode(double x, double y, double z) {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(x);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(y);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(z);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+
+	/**
+	 * @Methodtype boolean query
+	 */
+	@Override
+	public boolean isExactlyEqual(Coordinate coordinate) {
+		if (coordinate == null) {
+			return false;
+		}
+		CartesianCoordinate other = coordinate.asCartesianCoordinate();
+		return getX() == other.getX() && getY() == other.getY() && getZ() == other.getZ();
 	}
 
 }

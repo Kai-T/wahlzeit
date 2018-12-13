@@ -20,6 +20,9 @@
 
 package org.wahlzeit.model;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.wahlzeit.services.LogBuilder;
 
 public class SphericCoordinate extends AbstractCoordinate {
@@ -28,7 +31,9 @@ public class SphericCoordinate extends AbstractCoordinate {
 	private final double theta; //polar angle
 	private final double radius;
 	
-	public SphericCoordinate(double phi, double theta, double radius) {
+	private static Map<Integer, SphericCoordinate> allSphericCoordinates = new ConcurrentHashMap<>();
+	
+	private SphericCoordinate(double phi, double theta, double radius) {
 		assertValidDouble(phi);
 		assertValidDouble(theta);
 		assertValidDouble(radius);
@@ -37,6 +42,21 @@ public class SphericCoordinate extends AbstractCoordinate {
 		this.theta = ret[1];
 		this.radius = ret[2];
 		assertClassInvariants();
+	}
+	
+	public static SphericCoordinate getSphericCoordinate(double phi, double theta, double radius) {
+		int hash = createHashCode(phi, theta, radius);
+		SphericCoordinate coordinate = allSphericCoordinates.get(hash);
+		if (coordinate == null) {
+			synchronized (allSphericCoordinates){
+				coordinate = allSphericCoordinates.get(hash);
+				if (coordinate == null) {
+					coordinate = new SphericCoordinate(phi, theta, radius);
+					allSphericCoordinates.put(hash, coordinate);
+				}
+			}
+		}
+		return coordinate;		
 	}
 	
 	
@@ -166,7 +186,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 		double y = radius * Math.sin(phi) * Math.sin(theta);
 		double z = radius * Math.cos(theta);
 		
-		return new CartesianCoordinate(x, y, z);
+		return CartesianCoordinate.getCartesianCoordinate(x, y, z);
 	}
 	
 
@@ -177,5 +197,39 @@ public class SphericCoordinate extends AbstractCoordinate {
 	public SphericCoordinate doAsSphericCoordinate() {
 		return this;
 	}
+
+
+	@Override
+	public int hashCode() {
+		return createHashCode(getPhi(), getTheta(), getRadius());
+	}
+	
+	
+	private static int createHashCode(double phi, double theta, double radius) {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(phi);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(radius);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(theta);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+	
+	
+	/**
+	 * @Methodtype boolean query
+	 */
+	@Override
+	public boolean isExactlyEqual(Coordinate coordinate) {
+		if (coordinate == null) {
+			return false;
+		}
+		SphericCoordinate other = coordinate.asSphericCoordinate();
+		return getPhi() == other.getPhi() && getRadius() == other.getRadius() && getTheta() == other.getTheta();
+	}
+	
 	
 }

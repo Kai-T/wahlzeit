@@ -202,18 +202,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 	/**
 	 * @Methodtype boolean query
 	 */
-	@Override
-	public boolean isEqual(Coordinate coordinate) {
-		try {
-			assertIsNotNull(coordinate);
-		} catch (NullPointerException e) {
-			IllegalArgumentException ex = new IllegalArgumentException("isEqual got a null argument!", e);
-			log.warning(
-					LogBuilder.createSystemMessage().addException("isEqual failed", ex).toString());
-		}
-		double dist = getCartesianDistance(coordinate);
-		return Math.abs(dist) <= compare_threshold;
-	}
+	abstract public boolean isExactlyEqual(Coordinate coordinate);
 	
 
 	/**
@@ -224,10 +213,23 @@ public abstract class AbstractCoordinate implements Coordinate {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj.getClass().equals(Coordinate.class))){
+		if (!(obj.getClass().equals(this.getClass()))){
 			return false;
 		}
-		return this.isEqual((Coordinate)obj);
+		return this.isExactlyEqual((Coordinate)obj);
+	}
+	
+	
+	/**
+	 * @Methodtype boolean query
+	 */
+	@Override
+	public boolean isEqual(Coordinate coordinate) {
+		if (coordinate ==null) {
+			return false;
+		}
+		double dist = getCartesianDistance(coordinate);
+		return Math.abs(dist) <= compare_threshold;
 	}
 	
 	

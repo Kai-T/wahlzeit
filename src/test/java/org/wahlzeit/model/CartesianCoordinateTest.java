@@ -33,22 +33,29 @@ public class CartesianCoordinateTest {
 
 	@Before
 	public void setUp() {
-		coordinate1 = new CartesianCoordinate(0, 0, 0);
+		coordinate1 = CartesianCoordinate.getCartesianCoordinate(0, 0, 0);
 	}
 	
 	@Test (expected=IllegalArgumentException.class)
 	public void testNaNInInitialization() {
-		new CartesianCoordinate(0, 0, Double.NaN);
+		CartesianCoordinate.getCartesianCoordinate(0, 0, Double.NaN);
 	}
 	
 	@Test (expected=IllegalArgumentException.class)
 	public void testPositiveInfinityInInitialization() {
-		new CartesianCoordinate(0, 0, Double.POSITIVE_INFINITY);
+		CartesianCoordinate.getCartesianCoordinate(0, 0, Double.POSITIVE_INFINITY);
 	}
 	
 	@Test (expected=IllegalArgumentException.class)
 	public void testNegativeInfinityInInitialization() {
-		new CartesianCoordinate(0, 0, Double.NEGATIVE_INFINITY);
+		CartesianCoordinate.getCartesianCoordinate(0, 0, Double.NEGATIVE_INFINITY);
+	}
+	
+	@Test
+	public void testIdentity() {
+		CartesianCoordinate c1 = CartesianCoordinate.getCartesianCoordinate(0, 0, 0);
+		CartesianCoordinate c2 = CartesianCoordinate.getCartesianCoordinate(0, 0, 0);
+		assertTrue(c1 ==c2);
 	}
 
 	@Test
@@ -58,12 +65,12 @@ public class CartesianCoordinateTest {
 	
 	@Test
 	public void testIsEqualSameValues() {
-		assertTrue(coordinate1.isEqual(new CartesianCoordinate(0, 0, 0)));
+		assertTrue(coordinate1.isEqual(CartesianCoordinate.getCartesianCoordinate(0, 0, 0)));
 	}
 	
 	@Test
 	public void testIsEqualDifferentValues() {
-		assertFalse(coordinate1.isEqual(new CartesianCoordinate(1, 0, 0)));
+		assertFalse(coordinate1.isEqual(CartesianCoordinate.getCartesianCoordinate(1, 0, 0)));
 	}
 	
 	@Test
@@ -73,24 +80,24 @@ public class CartesianCoordinateTest {
 	
 	@Test
 	public void testGetDistanceSameValue() {
-		assertEquals(0, coordinate1.getCartesianDistance(new CartesianCoordinate(0, 0, 0)), 0.0);
+		assertEquals(0, coordinate1.getCartesianDistance(CartesianCoordinate.getCartesianCoordinate(0, 0, 0)), 0.0);
 	}
 	
 	@Test
 	public void testGetDistanceSimple() {
-		assertEquals(1, coordinate1.getCartesianDistance(new CartesianCoordinate(1, 0, 0)), 0.0);
+		assertEquals(1, coordinate1.getCartesianDistance(CartesianCoordinate.getCartesianCoordinate(1, 0, 0)), 0.0);
 	}
 	
 	@Test
 	public void testGetDistanceComplex() {
-		double result = coordinate1.getCartesianDistance(new CartesianCoordinate(12, 2, 63.72810));
+		double result = coordinate1.getCartesianDistance(CartesianCoordinate.getCartesianCoordinate(12, 2, 63.72810));
 		assertEquals(64.87889278964307, result, 1e-20);
 	}
 	
 	@Test (expected = Exception.class)
 	public void testGetDistanceOverflow() throws Exception {
-		Coordinate coordinate2 = new CartesianCoordinate(Double.MAX_VALUE, 0, 0);
-		Coordinate coordinate3 = new CartesianCoordinate(-1, 0, 0);
+		Coordinate coordinate2 = CartesianCoordinate.getCartesianCoordinate(Double.MAX_VALUE, 0, 0);
+		Coordinate coordinate3 = CartesianCoordinate.getCartesianCoordinate(-1, 0, 0);
 		
 		coordinate2.getCartesianDistance(coordinate3);
 	}
