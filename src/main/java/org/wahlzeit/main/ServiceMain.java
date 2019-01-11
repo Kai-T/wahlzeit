@@ -31,6 +31,7 @@ import org.wahlzeit.services.ConfigDir;
 import org.wahlzeit.services.Language;
 import org.wahlzeit.services.LogBuilder;
 import org.wahlzeit.services.SysConfig;
+import org.wahlzeit.utils.PatternInstance;
 import org.wahlzeit.webparts.WebPartTemplateService;
 
 import java.io.File;
@@ -40,6 +41,12 @@ import java.util.logging.Logger;
 /**
  * A Main class that runs a Wahlzeit web server.
  */
+@PatternInstance(
+		patternName = "Singleton",
+		participants = {
+				"Singleton"
+		}
+	)
 public class ServiceMain extends ModelMain {
 
 	private static final Logger log = Logger.getLogger(ServiceMain.class.getName());
