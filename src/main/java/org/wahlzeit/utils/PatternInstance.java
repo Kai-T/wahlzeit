@@ -17,46 +17,23 @@
  * License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
+package org.wahlzeit.utils;
 
-package org.wahlzeit.model;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Repeatable;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import java.util.logging.Logger;
+@Retention(RetentionPolicy.SOURCE)
+@Target(ElementType.TYPE)
+@Repeatable(PatternInstance.List.class)
+public @interface PatternInstance {
 
-import org.wahlzeit.services.LogBuilder;
-import org.wahlzeit.utils.PatternInstance;
-
-import com.googlecode.objectify.annotation.Subclass;
-
-@Subclass
-@PatternInstance(
-		patternName = "Abstract Factory",
-		participants = {
-				"ConcreteProduct"
-		}
-	)
-public class MushroomPhoto extends Photo {
+	String patternName();
+	String[] participants();
 	
-	private boolean edible;
-	
-	public MushroomPhoto() {
-		super();
-	}
-	
-	public MushroomPhoto(PhotoId id) {
-		super(id);
-	}
-
-	/**
-	 * @Methodtype getter
-	 */
-	public boolean getEdible() {
-		return edible;
-	}
-	
-	/**
-	 * @Methodtype setter
-	 */
-	public void setEdible(boolean edible) {
-		this.edible = edible;
-	}	
+	@Retention(RetentionPolicy.SOURCE) 
+	@Target({ElementType.TYPE}) 
+	@interface List { PatternInstance[] value(); } 
 }

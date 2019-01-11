@@ -23,7 +23,20 @@ package org.wahlzeit.model;
 import java.util.logging.Logger;
 
 import org.wahlzeit.services.LogBuilder;
+import org.wahlzeit.utils.PatternInstance;
 
+@PatternInstance(
+		patternName = "Abstract Factory",
+		participants = {
+				"ConcreteFactory"
+		}
+	)
+@PatternInstance(
+		patternName = "Singleton",
+		participants = {
+				"Singleton"
+		}
+	)
 public class MushroomPhotoFactory extends PhotoFactory {
 
 	private static final Logger log = Logger.getLogger(MushroomPhotoFactory.class.getName());
