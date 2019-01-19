@@ -22,9 +22,16 @@ package org.wahlzeit.model;
 import org.wahlzeit.model.Location;
 import org.wahlzeit.services.DataObject;
 
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
 
+
+@Entity
 public class Mushroom extends DataObject{
 
+	@Id
+	Long idLong;
+	
 	private final Location location;
 	private final MushroomType type;
 	private MushroomManager manager = MushroomManager.getInstance();

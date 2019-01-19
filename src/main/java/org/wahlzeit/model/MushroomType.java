@@ -21,8 +21,15 @@ package org.wahlzeit.model;
 
 import org.wahlzeit.services.DataObject;
 
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+
+@Entity
 public class MushroomType extends DataObject{
 
+	@Id
+	Long idLong;
+	
 	private String name = "";
 	private String edible = "no";
 	private MushroomType parentType = null;
