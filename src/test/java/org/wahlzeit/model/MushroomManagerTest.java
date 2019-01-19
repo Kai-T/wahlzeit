@@ -97,31 +97,4 @@ public class MushroomManagerTest {
 		assertEquals(m2.getType(), mm.getMushroomType("b"));
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	@Test
-	public void testGetEdible() {
-		MushroomPhoto foto = new MushroomPhoto();
-		assertEquals(foto.getEdible(), "unknown");
-		
-		Mushroom mushroom= MushroomManager.getInstance().createMushroom("porcini", null);
-		MushroomManager.getInstance().getMushroomType("porcini").setEdible("yes");
-		foto.setMushroom(mushroom);
-		assertEquals(foto.getEdible(), "yes");
-	}
-	
-	@Test
-	public void setAndGetMushroom() {
-		MushroomPhoto foto = new MushroomPhoto();
-		Mushroom mushroom= MushroomManager.getInstance().createMushroom("porcini", null);
-		foto.setMushroom(mushroom);
-		assertEquals(mushroom, foto.getMushroom());
-	}
-	
 }
