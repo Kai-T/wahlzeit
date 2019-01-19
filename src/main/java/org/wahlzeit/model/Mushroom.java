@@ -17,57 +17,64 @@
  * License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-
 package org.wahlzeit.model;
 
-import java.util.logging.Logger;
+import org.wahlzeit.model.Location;
+import org.wahlzeit.services.DataObject;
 
-import org.wahlzeit.services.LogBuilder;
-import org.wahlzeit.utils.PatternInstance;
 
-import com.googlecode.objectify.annotation.Subclass;
+public class Mushroom extends DataObject{
 
-@Subclass
-@PatternInstance(
-		patternName = "Abstract Factory",
-		participants = {
-				"ConcreteProduct"
-		}
-	)
-public class MushroomPhoto extends Photo {
+	private final Location location;
+	private final MushroomType type;
+	private MushroomManager manager = MushroomManager.getInstance();
+	private final long id;
+
 	
-	private Mushroom mushroom = null;
-	
-	public MushroomPhoto() {
-		super();
+	public Mushroom(MushroomType type, Location location, long id) {
+		this.type = type;
+		this.location = location;
+		this.id = id;
 	}
-	
-	public MushroomPhoto(PhotoId id) {
-		super(id);
+
+
+	/**
+	 * @methodtype get
+	 */
+	public Location getLocation() {
+		return this.location;
 	}
 	
 	/**
-	 * @Methodtype getter
+	 * @methodtype get
 	 */
-	public Mushroom getMushroom() {
-		return mushroom;
+	public MushroomType getType() {
+		return this.type;
 	}
-
+	
 	/**
-	 * @Methodtype setter
+	 * @methodtype get
 	 */
-	public void setMushroom(Mushroom mushroom) {
-		this.mushroom = mushroom;
+	public MushroomManager getManager() {
+		return this.manager;
 	}
+	
+	/**
+	 * @methodtype get
+	 */
+	public long getId() {
+		return this.id;
+	}
+	
 
 	/**
 	 * @Methodtype getter
 	 */
 	public String getEdible() {
-		if (mushroom == null) {
+		if (type == null) {
 			return "unknown";
 		}
-		return mushroom.getEdible();
+		return type.getEdible();
 	}
-	
+
 }

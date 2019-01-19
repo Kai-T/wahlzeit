@@ -73,11 +73,22 @@ public class MushroomPhotoTest {
 	}
 	
 	@Test
-	public void testEdible() {
+	public void testGetEdible() {
 		MushroomPhoto foto = new MushroomPhoto();
-		foto.setEdible(true);
-		assertEquals(foto.getEdible(), true);
-		foto.setEdible(false);
-		assertEquals(foto.getEdible(), false);
+		assertEquals(foto.getEdible(), "unknown");
+		
+		Mushroom mushroom= MushroomManager.getInstance().createMushroom("porcini", null);
+		MushroomManager.getInstance().getMushroomType("porcini").setEdible("yes");
+		foto.setMushroom(mushroom);
+		assertEquals(foto.getEdible(), "yes");
 	}
+	
+	@Test
+	public void setAndGetMushroom() {
+		MushroomPhoto foto = new MushroomPhoto();
+		Mushroom mushroom= MushroomManager.getInstance().createMushroom("porcini", null);
+		foto.setMushroom(mushroom);
+		assertEquals(mushroom, foto.getMushroom());
+	}
+	
 }

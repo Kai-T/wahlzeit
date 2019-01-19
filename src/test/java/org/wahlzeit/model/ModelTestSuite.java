@@ -41,6 +41,9 @@ import org.wahlzeit.model.persistence.ModelPersistenceTestSuite;
 	ModelPersistenceTestSuite.class,
 	MushroomPhotoFactoryTest.class,
 	MushroomPhotoMangerTest.class,
-	MushroomPhotoTest.class
+	MushroomPhotoTest.class,
+	MushroomTest.class,
+	MushroomTypeTest.class,
+	MushroomManagerTest.class
 })
 public class ModelTestSuite {}
