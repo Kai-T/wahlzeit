@@ -20,11 +20,18 @@
 package org.wahlzeit.model;
 
 import org.wahlzeit.services.DataObject;
+import org.wahlzeit.utils.PatternInstance;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
 @Entity
+@PatternInstance(
+		patternName = "TypeObject",
+		participants = {
+				"ObjectType"
+		}
+	)
 public class MushroomType extends DataObject{
 
 	@Id
