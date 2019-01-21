@@ -21,26 +21,12 @@ package org.wahlzeit.model;
 
 import static org.junit.Assert.*;
 
-import org.junit.ClassRule;
 import org.junit.Test;
-import org.junit.rules.RuleChain;
-import org.wahlzeit.testEnvironmentProvider.LocalDatastoreServiceTestConfigProvider;
-import org.wahlzeit.testEnvironmentProvider.RegisteredOfyEnvironmentProvider;
-import org.wahlzeit.testEnvironmentProvider.SysConfigProvider;
-import org.wahlzeit.testEnvironmentProvider.UserServiceProvider;
-import org.wahlzeit.testEnvironmentProvider.UserSessionProvider;
+
 
 
 public class MushroomTest {
-	
-	@ClassRule
-	public static RuleChain ruleChain = RuleChain.
-			outerRule(new LocalDatastoreServiceTestConfigProvider()).
-			around(new RegisteredOfyEnvironmentProvider()).
-			around(new SysConfigProvider()).
-			around(new UserServiceProvider()).
-			around(new UserSessionProvider());
-	
+		
 	@Test
 	public void testCreation() {
 		Mushroom m = new Mushroom(null, null, 1);
@@ -64,7 +50,7 @@ public class MushroomTest {
 	
 	@Test
 	public void testGetType() {
-		String type_name = "porcini";
+		String type_name = "mushroomTestMushroom0";
 		Mushroom mushroom = MushroomManager.getInstance().createMushroom(type_name, null);
 		assertEquals(mushroom.getType(), MushroomManager.getInstance().getMushroomType(type_name));
 		assertEquals(type_name, mushroom.getType().getName());
@@ -73,10 +59,10 @@ public class MushroomTest {
 	@Test
 	public void testEdible() {
 		
-		Mushroom mushroom = MushroomManager.getInstance().createMushroom("porcini", null);
-		assertEquals(mushroom.getEdible(), "unknown");
-		MushroomManager.getInstance().getMushroomType("porcini").setEdible("yes");
-		assertEquals(mushroom.getEdible(), "yes");
+		Mushroom mushroom = MushroomManager.getInstance().createMushroom("mushroomTestMushroom1", null);
+		assertEquals("unknown", mushroom.getEdible());
+		MushroomManager.getInstance().getMushroomType("mushroomTestMushroom1").setEdible("yes");
+		assertEquals("yes", mushroom.getEdible());
 	}
 	
 	

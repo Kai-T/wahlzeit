@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 import org.wahlzeit.services.LogBuilder;
 import org.wahlzeit.utils.PatternInstance;
 
+import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Subclass;
 
 @Subclass
@@ -36,6 +37,7 @@ import com.googlecode.objectify.annotation.Subclass;
 	)
 public class MushroomPhoto extends Photo {
 	
+	@Ignore
 	private Mushroom mushroom = null;
 	
 	public MushroomPhoto() {

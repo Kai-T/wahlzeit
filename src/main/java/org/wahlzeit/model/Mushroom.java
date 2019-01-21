@@ -27,18 +27,15 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
 
-@Entity
+
 @PatternInstance(
 		patternName = "TypeObject",
 		participants = {
 				"Object"
 		}
 	)
-public class Mushroom extends DataObject{
-
-	@Id
-	Long idLong;
-	
+public class Mushroom {
+		
 	private final Location location;
 	private final MushroomType type;
 	private MushroomManager manager = MushroomManager.getInstance();

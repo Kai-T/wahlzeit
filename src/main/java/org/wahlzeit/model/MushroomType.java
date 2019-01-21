@@ -25,17 +25,14 @@ import org.wahlzeit.utils.PatternInstance;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
-@Entity
 @PatternInstance(
 		patternName = "TypeObject",
 		participants = {
 				"ObjectType"
 		}
 	)
-public class MushroomType extends DataObject{
+public class MushroomType {
 
-	@Id
-	Long idLong;
 	
 	private String name = "";
 	private String edible = "no";

@@ -34,30 +34,17 @@ import org.wahlzeit.utils.PatternInstance;
 				"Singleton"
 		}
 	)
-public class MushroomManager extends ObjectManager {
+public class MushroomManager {
 	
 	private static final MushroomManager instance = new MushroomManager();
 	
-	private Map<String, MushroomType> types = new HashMap<String, MushroomType>();
-	private Map<Long, Mushroom> mushrooms = new HashMap<Long, Mushroom>();
+	private final Map<String, MushroomType> types = new HashMap<String, MushroomType>();
+	private final Map<Long, Mushroom> mushrooms = new HashMap<Long, Mushroom>();
 	
 	private long lastid = 0;
 
 
-	private MushroomManager() {
-		List<MushroomType> mushroom_type_list = new ArrayList<>();
-		readObjects(mushroom_type_list, MushroomType.class);
-		for (MushroomType t : mushroom_type_list) {
-			types.put(t.getName(), t);
-		}
-		
-		List<Mushroom> mushroom_list = new ArrayList<>();
-		readObjects(mushroom_list, Mushroom.class);
-		for (Mushroom m : mushroom_list) {
-			mushrooms.put(m.getId(), m);
-		}
-		
-	}
+	private MushroomManager() {}
 	
 	/**
 	 * @Methodtype getter
@@ -73,11 +60,9 @@ public class MushroomManager extends ObjectManager {
 		if (mt == null) {
 			mt = new MushroomType(typeName, "unknown");
 			types.put(typeName, mt);
-			writeObject(mt);
 		}
 		Mushroom mushroom = mt.createInstance(location, getNetId());
 		mushrooms.put(mushroom.getId(), mushroom);
-		writeObject(mushroom);
 		return mushroom;
 	}
 
