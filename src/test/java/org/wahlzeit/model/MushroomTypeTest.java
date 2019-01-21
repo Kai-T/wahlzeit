@@ -82,12 +82,12 @@ public class MushroomTypeTest {
 	}
 	
 	@Test
-	public void testSetParentType() {
+	public void testSetSuperType() {
 		MushroomType m1 = new MushroomType("a", "no");
 		MushroomType m2 = new MushroomType("b", "no");
-		m1.setParentType(m2);
+		m1.setSuperType(m2);
 		
-		assertEquals(m1.getParentType(), m2);
+		assertEquals(m1.getSuperType(), m2);
 	}
 	
 	
@@ -106,8 +106,8 @@ public class MushroomTypeTest {
 		assertFalse(m3.isSubtype(null));
 
 		
-		m1.setParentType(m2);
-		m2.setParentType(m3);
+		m1.setSuperType(m2);
+		m2.setSuperType(m3);
 		
 		assertTrue(m1.isSubtype(m2));
 		assertTrue(m1.isSubtype(m3));

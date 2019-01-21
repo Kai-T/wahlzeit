@@ -32,7 +32,7 @@ public class MushroomType extends DataObject{
 	
 	private String name = "";
 	private String edible = "no";
-	private MushroomType parentType = null;
+	private MushroomType superType = null;
 
 
 	private MushroomManager manager = MushroomManager.getInstance();
@@ -51,16 +51,16 @@ public class MushroomType extends DataObject{
 	/**
 	 * @Methodtype getter
 	 */
-	public MushroomType getParentType() {
-		return parentType;
+	public MushroomType getSuperType() {
+		return superType;
 	}
 
 
 	/**
 	 * @Methodtype setter
 	 */
-	public void setParentType(MushroomType parentType) {
-		this.parentType = parentType;
+	public void setSuperType(MushroomType superType) {
+		this.superType = superType;
 	}
 	
 	/**
@@ -73,10 +73,10 @@ public class MushroomType extends DataObject{
 		if (t == this) {
 			return true;
 		}
-		if (parentType == null) {
+		if (superType == null) {
 			return false;
 		}
-		return parentType.isSubtype(t);
+		return superType.isSubtype(t);
 	}
 	
 	
